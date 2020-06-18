@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -24,15 +24,6 @@ ma = Marshmallow(app)
 jwt_secret = os.getenv("JWT_SECRET")
 app.config['JWT_SECRET_KEY'] = jwt_secret
 
-# class UserTwo(db.Model):
-#     __tablename__ = 'userstwo'
-#     user_id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(100), unique=True, nullable=False)
-#     first_name = db.Column(db.String(20), nullable=False)
-#     password = db.Column(db.Text, nullable=False)
-
-# db.create_all()
-
 from hebapp.units.models import Unit
 from hebapp.departments.models import Department
 from hebapp.users.routes import users
@@ -40,6 +31,10 @@ from hebapp.products.routes import products
 
 app.register_blueprint(users)
 app.register_blueprint(products)
+
+@app.route('/', methods=['GET'])
+def index():
+    return Response("API for H-E-B coding exercise. By Sam Bell."), 200
 
 @app.errorhandler(400)
 def bad_request(e):

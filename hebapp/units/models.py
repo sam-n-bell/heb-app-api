@@ -3,7 +3,6 @@ from datetime import datetime
 from marshmallow import Schema, fields
 from marshmallow.validate import Length, Range
 from marshmallow import Schema, fields
-# from hebapp.products.models import Product
 
 class Unit(db.Model):
     __tablename__ = 'units'
