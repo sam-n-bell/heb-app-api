@@ -36,6 +36,7 @@ def register():
     if existing is not None:
         abort(400, description="User already exists for this email")
     
+    # Why using .decode() => https://stackoverflow.com/a/38262440/7858114
     login['password'] = bcrypt.generate_password_hash(login.get('password'), 10).decode('utf8')
     new_user = User(email=login.get('email'), password=login.get('password'), first_name=login.get('first_name'))
     db.session.add(new_user)

@@ -25,10 +25,10 @@ jwt_secret = os.getenv("JWT_SECRET")
 app.config['JWT_SECRET_KEY'] = jwt_secret
 
 from hebapp.users.routes import users
-from hebapp.items.routes import items
+from hebapp.products.routes import products
 
 app.register_blueprint(users)
-app.register_blueprint(items)
+app.register_blueprint(products)
 
 @app.errorhandler(400)
 def bad_request(e):
