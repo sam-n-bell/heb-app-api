@@ -1,6 +1,8 @@
 from hebapp import db, ma
 from datetime import datetime
-
+from marshmallow import Schema, fields
+from marshmallow.validate import Length, Range
+from marshmallow import Schema, fields
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -40,3 +42,8 @@ class UserJwtSchema(ma.SQLAlchemySchema):
             "date_created",
             "user_id"
         )
+
+class LoginSchema(Schema):
+    jwt = fields.Str(required=False)
+    email = fields.Email(required=True)
+    password = fields.Str(required=True, validate=Length(min=8, max=30))

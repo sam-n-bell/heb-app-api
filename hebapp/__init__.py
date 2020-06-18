@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -29,3 +29,19 @@ from hebapp.items.routes import items
 
 app.register_blueprint(users)
 app.register_blueprint(items)
+
+@app.errorhandler(400)
+def bad_request(e):
+    return jsonify(message=e.description), 400
+
+@app.errorhandler(401)
+def unauthorized(e):
+    return jsonify(message=e.description), 401
+
+@app.errorhandler(404)
+def resource_not_found(e):
+    return jsonify(message=e.description), 404
+
+@app.errorhandler(500)
+def internal_system_error(e):
+    return jsonify(message=e.description), 500
