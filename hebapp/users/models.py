@@ -8,7 +8,8 @@ class User(db.Model):
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.Text, unique=False, nullable=False)
+    first_name = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     jwts = db.relationship('UserJwt', backref="user", lazy=True)
 
@@ -31,7 +32,8 @@ class UserSchema(ma.SQLAlchemySchema):
         fields = (
             "user_id",
             "email",
-            "date_created"
+            "date_created",
+            "first_name"
         )
 
 class UserJwtSchema(ma.SQLAlchemySchema):
@@ -43,7 +45,11 @@ class UserJwtSchema(ma.SQLAlchemySchema):
             "user_id"
         )
 
+class RegistrationSchema(Schema):
+    email = fields.Email(required=True)
+    first_name = fields.String(required=True, validate=Length(min=1, max=20))
+    password = fields.Str(required=True, validate=Length(min=8, max=30))
+
 class LoginSchema(Schema):
-    jwt = fields.Str(required=False)
     email = fields.Email(required=True)
     password = fields.Str(required=True, validate=Length(min=8, max=30))

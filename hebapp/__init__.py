@@ -21,8 +21,8 @@ db = SQLAlchemy(app)
 # intitialize marshmallow
 ma = Marshmallow(app)
 
-# from hebitems import routes
-
+jwt_secret = os.getenv("JWT_SECRET")
+app.config['JWT_SECRET_KEY'] = jwt_secret
 
 from hebapp.users.routes import users
 from hebapp.items.routes import items
