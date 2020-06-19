@@ -3,13 +3,14 @@ from datetime import datetime
 from marshmallow import Schema, fields
 from marshmallow.validate import Length, Range
 from marshmallow import Schema, fields
+from citext import CIText
 
 class User(db.Model):
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    first_name = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.Text, nullable=False)
+    email = db.Column(CIText(), unique=True, nullable=False)
+    first_name = db.Column(CIText(), nullable=False)
+    password = db.Column(CIText(), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     jwts = db.relationship('UserJwt', backref="user", lazy=True)
 
@@ -19,7 +20,7 @@ class User(db.Model):
 class UserJwt(db.Model):
     __tablename__ = 'user_jwts'
     user_jwt_id = db.Column(db.Integer, primary_key=True)
-    jwt = db.Column(db.Text, nullable=False)
+    jwt = db.Column(CIText(), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
 

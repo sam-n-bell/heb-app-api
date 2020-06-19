@@ -5,11 +5,13 @@ from marshmallow.validate import Length, Range
 from marshmallow import Schema, fields
 from hebapp.departments.models import Department
 from marshmallow import Schema
+from citext import CIText
+
 
 class Product(db.Model):
     __tablename__ = 'products'
     product_id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(100), unique=True, nullable=False)
+    description = db.Column(CIText(), unique=True, nullable=False)
     last_sold = db.Column(db.Date, nullable=True)
     shelf_life = db.Column(db.Integer, nullable=True)
     sell_price = db.Column(db.Float, nullable=False)
@@ -49,9 +51,9 @@ class ProductModelSchema(ma.Schema):
 
 # this is actually a VIEW table in the database. Don't try writing to it!
 class ProductView(db.Model):
-    __tablename__ = 'product_view'
+    __tablename__ = 'products_view'
     product_id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(100), unique=True, nullable=False)
+    description = db.Column(CIText(), unique=True, nullable=False)
     last_sold = db.Column(db.Date, nullable=True)
     shelf_life = db.Column(db.Integer, nullable=True)
     sell_price = db.Column(db.Float, nullable=False)

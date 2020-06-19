@@ -18,6 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # intialize the database
 db = SQLAlchemy(app)
 
+
+
 # intitialize marshmallow
 ma = Marshmallow(app)
 
