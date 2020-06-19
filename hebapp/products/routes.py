@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, Response
+from flask import Blueprint, jsonify, request, Response, abort
 from hebapp.products.models import Product
 from flask_jwt_extended import (
     jwt_required,
