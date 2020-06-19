@@ -51,7 +51,8 @@ def search_products():
     min_cost = request.args.get('minCost')
     max_cost = request.args.get('maxCost')
     sell_count = request.args.get('soldInCounts')
-
+    page = request.args.get('page')
+    num_per_page = request.args.get('itemsPerPage')
 
     filters = []
     if department:
@@ -83,7 +84,14 @@ def search_products():
     if sell_count:
         filters.append(ProductView.qty_sold_in == sell_count)
 
-    # filters = tuple(filters)
-    product_views = ProductView.query.filter(*tuple(filters)).all()
+    if page is None:
+        page = 1
+    if num_per_page is None:
+        num_per_page = 8
+    query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc()).paginate(int(page), int(num_per_page), False)
+    
+    product_views = query.items
+    has_next = query.has_next
+    has_prev = query.has_prev
     product_views = serialize_many(product_views)
-    return jsonify(product_views)
+    return jsonify({'products': product_views, 'has_next': has_next, 'has_previous': has_prev})
