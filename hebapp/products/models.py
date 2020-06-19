@@ -13,7 +13,7 @@ class Product(db.Model):
     product_id = db.Column(db.Integer, primary_key=True)
     description = db.Column(CIText(), unique=True, nullable=False)
     last_sold = db.Column(db.Date, nullable=True)
-    shelf_life = db.Column(db.Integer, nullable=True)
+    shelf_life_days = db.Column(db.Integer, nullable=True)
     sell_price = db.Column(db.Float, nullable=False)
     cost_expense = db.Column(db.Float, nullable=False)
     qty_sold_in = db.Column(db.Integer, nullable=False)
@@ -21,7 +21,7 @@ class Product(db.Model):
     unit_id = db.Column(db.Integer, db.ForeignKey('units.unit_id'), nullable = False)
 
     def __repr__(self):
-        return f'Product({self.product_id}, {self.description}, {self.last_sold}, {self.shelf_life}, {self.sell_price})'
+        return f'Product({self.product_id}, {self.description}, {self.last_sold}, {self.shelf_life_days}, {self.sell_price})'
 
 class ProductSchema(ma.SQLAlchemySchema):
     class Meta:
@@ -29,7 +29,7 @@ class ProductSchema(ma.SQLAlchemySchema):
             "product_id",
             "description",
             "last_sold",
-            "shelf_life",
+            "shelf_life_days",
             "sell_price",
             "cost_expense",
             "qty_sold_in",
@@ -41,7 +41,7 @@ class ProductSchema(ma.SQLAlchemySchema):
 class ProductModelSchema(ma.Schema):
     description = fields.Str(required=True, validate=Length(min=2, max=100))
     last_sold = fields.Date()
-    shelf_life = fields.Integer(required=False, validate=Range(min=1))
+    shelf_life_days = fields.Integer(required=False, validate=Range(min=1))
     sell_price = fields.Float(required=True, validate=Range(min=0))
     cost_expense = fields.Float(required=True, validate=Range(min=0))
     qty_sold_in = fields.Integer(required=False, validate=Range(min=1))
@@ -55,7 +55,7 @@ class ProductView(db.Model):
     product_id = db.Column(db.Integer, primary_key=True)
     description = db.Column(CIText(), unique=True, nullable=False)
     last_sold = db.Column(db.Date, nullable=True)
-    shelf_life = db.Column(db.Integer, nullable=True)
+    shelf_life_days = db.Column(db.Integer, nullable=True)
     sell_price = db.Column(db.Float, nullable=False)
     cost_expense = db.Column(db.Float, nullable=False)
     qty_sold_in = db.Column(db.Integer, nullable=False)
@@ -63,7 +63,7 @@ class ProductView(db.Model):
     unit = db.Column(db.String(50), nullable = False)
 
     def __repr__(self):
-        return f'ProductView({self.product_id}, {self.description}, {self.last_sold}, {self.shelf_life}, {self.sell_price}, {self.cost_expense}, {self.qty_sold_in}, {self.department}, {self.unit})'
+        return f'ProductView({self.product_id}, {self.description}, {self.last_sold}, {self.shelf_life_days}, {self.sell_price}, {self.cost_expense}, {self.qty_sold_in}, {self.department}, {self.unit})'
 
 class ProductViewSchema(ma.SQLAlchemySchema):
     class Meta:
@@ -71,7 +71,7 @@ class ProductViewSchema(ma.SQLAlchemySchema):
             "product_id",
             "description",
             "last_sold",
-            "shelf_life",
+            "shelf_life_days",
             "sell_price",
             "cost_expense",
             "qty_sold_in",

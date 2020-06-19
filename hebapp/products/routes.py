@@ -23,7 +23,7 @@ def create_product():
     
     product = Product(description=product_request.get('description'),
                         last_sold=product_request.get('last_sold'),
-                        shelf_life=product_request.get('shelf_life'),
+                        shelf_life_days=product_request.get('shelf_life_days'),
                         department_id=product_request.get('department_id'),
                         sell_price=product_request.get('sell_price'),
                         unit_id=product_request.get('unit_id'),
@@ -74,11 +74,11 @@ def search_products():
     if max_cost:
         filters.append(ProductView.cost_expense <= max_cost)
     if min_life:
-        filters.append(ProductView.shelf_life >= min_life)
+        filters.append(ProductView.shelf_life_days >= min_life)
     if max_life:
-        filters.append(ProductView.shelf_life <= max_life)
+        filters.append(ProductView.shelf_life_days <= max_life)
     if exact_life:
-        filters.append(ProductView.shelf_life == exact_life)
+        filters.append(ProductView.shelf_life_days == exact_life)
     if selling_unit:
         filters.append(ProductView.unit == selling_unit)
     if sell_count:
