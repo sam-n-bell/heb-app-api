@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, abort, Response, request
 from flask_bcrypt import Bcrypt
 from hebapp import db, app
 from hebapp.users.models import User, UserJwt, UserSchema, RegistrationSchema, LoginSchema
-from hebapp.users.utils import serialize_many, return_marshmallow_schema_errors, serialize_one
+from hebapp.users.utils import serialize_many, serialize_one
+from hebapp.utils import return_marshmallow_schema_errors
 from sqlalchemy import func
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
