@@ -32,8 +32,9 @@ from hebapp.departments.models import Department
 from hebapp.users.routes import users
 from hebapp.products.routes import products
 
-app.register_blueprint(users)
-app.register_blueprint(products)
+prefix = os.getenv("URL_PREFIX")
+app.register_blueprint(users, url_prefix=prefix)
+app.register_blueprint(products, url_prefix=prefix)
 
 @app.route('/', methods=['GET'])
 def index():
