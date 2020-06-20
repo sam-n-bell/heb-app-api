@@ -37,6 +37,7 @@ def create_product():
 @products.route('/products', methods=['GET'])
 @jwt_required
 def search_products():
+    id = request.args.get('id')
     description = request.args.get('description')
     sold_from = request.args.get('soldFrom')
     sold_to = request.args.get('soldTo')
@@ -55,34 +56,37 @@ def search_products():
     num_per_page = request.args.get('itemsPerPage')
 
     filters = []
-    if department:
-        filters.append(ProductView.department == department)
-    if description:
-        filters.append(ProductView.description.like('%'+description+'%'))
-    if sold_from:
-        filters.append(ProductView.last_sold >= sold_from)
-    if sold_to:
-        filters.append(ProductView.last_sold <= sold_to)
-    if sold_on:
-        filters.append(ProductView.last_sold == sold_on)
-    if min_price:
-        filters.append(ProductView.sell_price >= min_price)
-    if max_price:
-        filters.append(ProductView.sell_price <= max_price)
-    if min_cost:
-        filters.append(ProductView.cost_expense >= min_cost)
-    if max_cost:
-        filters.append(ProductView.cost_expense <= max_cost)
-    if min_life:
-        filters.append(ProductView.shelf_life_days >= min_life)
-    if max_life:
-        filters.append(ProductView.shelf_life_days <= max_life)
-    if exact_life:
-        filters.append(ProductView.shelf_life_days == exact_life)
-    if selling_unit:
-        filters.append(ProductView.unit == selling_unit)
-    if sell_count:
-        filters.append(ProductView.qty_sold_in == sell_count)
+    if id:
+        filters.append(ProductView.product_id == id)
+    else:
+        if department:
+            filters.append(ProductView.department == department)
+        if description:
+            filters.append(ProductView.description.like('%'+description+'%'))
+        if sold_from:
+            filters.append(ProductView.last_sold >= sold_from)
+        if sold_to:
+            filters.append(ProductView.last_sold <= sold_to)
+        if sold_on:
+            filters.append(ProductView.last_sold == sold_on)
+        if min_price:
+            filters.append(ProductView.sell_price >= min_price)
+        if max_price:
+            filters.append(ProductView.sell_price <= max_price)
+        if min_cost:
+            filters.append(ProductView.cost_expense >= min_cost)
+        if max_cost:
+            filters.append(ProductView.cost_expense <= max_cost)
+        if min_life:
+            filters.append(ProductView.shelf_life_days >= min_life)
+        if max_life:
+            filters.append(ProductView.shelf_life_days <= max_life)
+        if exact_life:
+            filters.append(ProductView.shelf_life_days == exact_life)
+        if selling_unit:
+            filters.append(ProductView.unit == selling_unit)
+        if sell_count:
+            filters.append(ProductView.qty_sold_in == sell_count)
 
     if page is None:
         page = 1
