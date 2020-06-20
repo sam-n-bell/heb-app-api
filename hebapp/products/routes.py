@@ -91,8 +91,8 @@ def search_products():
     if page is None:
         page = 1
     if num_per_page is None:
-        num_per_page = 8
-    query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc())#.paginate(int(page), int(num_per_page), False)
+        num_per_page = 30
+    query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc()).paginate(int(page), int(num_per_page), False)
     
     product_views = query.items
     has_next = query.has_next
