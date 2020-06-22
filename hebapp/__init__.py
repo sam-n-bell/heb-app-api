@@ -31,7 +31,7 @@ def create_app(config_class=ProductionConfig):
     # initialize the application
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object(ProductionConfig)
+    app.config.from_object(config_class)
     prefix = os.getenv("URL_PREFIX")
 
     db.init_app(app)
