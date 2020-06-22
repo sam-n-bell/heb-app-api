@@ -88,14 +88,8 @@ def search_products():
         if sell_count:
             filters.append(ProductView.qty_sold_in == sell_count)
 
-    if page is None:
-        page = 1
-    if num_per_page is None:
-        num_per_page = 30
-    query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc()).paginate(int(page), int(num_per_page), False)
-    
-    product_views = query.items
-    has_next = query.has_next
-    has_prev = query.has_prev
+    # to paginate - instead of .all() use .paginate(int(page), int(num_per_page), False)
+    query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc()).all()
+    product_views = query # if using pagination, query.items, query.has_next, query.has_prev
     product_views = serialize_many(product_views)
-    return jsonify({'products': product_views, 'has_next': has_next, 'has_previous': has_prev})
+    return jsonify({'products': product_views})  #, 'has_next': has_next, 'has_previous': has_prev})
