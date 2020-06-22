@@ -13,7 +13,7 @@ from hebapp.departments.models import Department
 from unittest.mock import patch
 load_dotenv(verbose=False)
 
-class UserTests(unittest.TestCase):
+class ProductTests(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app(TestConfig)
