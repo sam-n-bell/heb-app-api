@@ -17,6 +17,7 @@ products = Blueprint('products', __name__)
 @jwt_required
 def create_product():
     product_request = request.json
+    # make that the POST body contains all necessary data
     errors = product_model_schema.validate(product_request)
     if errors:
         abort(400, description=return_marshmallow_schema_errors(errors))
@@ -37,6 +38,7 @@ def create_product():
 @products.route('/products', methods=['GET'])
 @jwt_required
 def search_products():
+    # all the different fields to query by
     id = request.args.get('id')
     description = request.args.get('description')
     sold_from = request.args.get('soldFrom')
@@ -55,6 +57,7 @@ def search_products():
     page = request.args.get('page')
     num_per_page = request.args.get('itemsPerPage')
 
+    # dynamically add filters based on request query string
     filters = []
     if id:
         filters.append(ProductView.product_id == id)
@@ -92,4 +95,4 @@ def search_products():
     query = ProductView.query.filter(*tuple(filters)).order_by(ProductView.description.asc()).all()
     product_views = query # if using pagination, query.items, query.has_next, query.has_prev
     product_views = serialize_many(product_views)
-    return jsonify({'products': product_views})  #, 'has_next': has_next, 'has_previous': has_prev})
+    return jsonify({'products': product_views})

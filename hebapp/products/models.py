@@ -23,6 +23,7 @@ class Product(db.Model):
     def __repr__(self):
         return f'Product({self.product_id}, {self.description}, {self.last_sold}, {self.shelf_life_days}, {self.sell_price})'
 
+# for serialization if needed
 class ProductSchema(ma.SQLAlchemySchema):
     class Meta:
         fields = (
