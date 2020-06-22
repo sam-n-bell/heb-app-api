@@ -1,6 +1,5 @@
-from flask import Blueprint, jsonify, abort, Response, request
-from flask_bcrypt import Bcrypt
-from hebapp import db, app
+from flask import Blueprint, jsonify, abort, Response, request, current_app
+from hebapp import db, bcrypt, jwt
 from hebapp.users.models import User, UserJwt, UserSchema, RegistrationSchema, LoginSchema
 from hebapp.users.utils import serialize_many, serialize_one
 from hebapp.utils import return_marshmallow_schema_errors
@@ -14,17 +13,10 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 load_dotenv(verbose=True)
 
-secret = os.getenv("jwt_secret")
-
 users = Blueprint('users', __name__)
 
 registration_schema = RegistrationSchema()
 login_schema = LoginSchema()
-
-bcrypt = Bcrypt(app)
-
-jwt = JWTManager(app)
-
 
 @users.route('/register', methods=['POST'])
 def register():
