@@ -11,7 +11,7 @@ from flask_jwt_extended import (
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-load_dotenv(verbose=True)
+load_dotenv()
 
 users = Blueprint('users', __name__)
 
@@ -55,9 +55,3 @@ def login():
     db.session.add(user_jwt)
     db.session.commit()
     return Response(access_token, 200)
-
-@users.route("/users", methods=['GET'])
-def get():
-    users = User.query.all()
-    users = serialize_many(users)
-    return jsonify(users)

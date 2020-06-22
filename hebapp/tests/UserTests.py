@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from hebapp.users.models import User
 load_dotenv(verbose=False)
 
-class TestUsers(unittest.TestCase):
+class UserTests(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app(TestConfig)
